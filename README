@@ -1,0 +1,22 @@
+Django on Twisted
+=================
+
+May 3, 2009
+-----------
+ === For best results, use the Twisted Trunk === 
+
+ * This directory contains an example of how to combine Twisted and Django
+using the lastest WSGI functionality in twisted.web.
+
+
+How to run example:
+-------------------
+
+$ git clone twisted_wsgi_django
+
+$ svn co svn://svn.twistedmatrix.com/svn/Twisted/trunk Twisted
+
+$ ./Twisted/twisted/bin/twistd -ny server.py #navigate to localhost:8000
+
+
+
