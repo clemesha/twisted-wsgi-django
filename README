@@ -9,14 +9,17 @@ May 3, 2009
 using the lastest WSGI functionality in twisted.web.
 
 
-How to run example:
--------------------
+How to run
+-----------
+# Following these steps exactly in order should get the example running:
 
-$ git clone twisted_wsgi_django
-
+$ git clone git://github.com/clemesha/twisted-wsgi-django.git
+$ cd twisted-wsgi-django
+$ cd mydjangosite 
+$ python manage.py syncdb #Assumes you have Django 1.0 or greater installed
+$ cd ..
 $ svn co svn://svn.twistedmatrix.com/svn/Twisted/trunk Twisted
-
-$ ./Twisted/twisted/bin/twistd -ny server.py #navigate to localhost:8000
+$ ./Twisted/bin/twistd -ny server.py #navigate to localhost:8000
 
 
 
