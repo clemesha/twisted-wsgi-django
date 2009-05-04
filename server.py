@@ -8,41 +8,38 @@ from twisted.internet import reactor
 
 import twresource
 
+PORT = 8000
+
+# Environment setup for your Django project files:
 sys.path.append("mydjangosite")
 os.environ['DJANGO_SETTINGS_MODULE'] = 'mydjangosite.settings'
-
 from django.core.handlers.wsgi import WSGIHandler
-
-class Root(resource.Resource):
-
-    def __init__(self, wsgi_resource):
-        resource.Resource.__init__(self)
-        self.wsgi_resource = wsgi_resource
-
-    def getChild(self, path, request):
-        path0 = request.prepath.pop(0)
-        request.postpath.insert(0, path0)
-        return self.wsgi_resource
 
 def wsgi_resource():
     pool = threadpool.ThreadPool()
     pool.start()
+    # Allow Ctrl-C to get you out cleanly:
     reactor.addSystemEventTrigger('after', 'shutdown', pool.stop)
     wsgi_resource = wsgi.WSGIResource(reactor, pool, WSGIHandler())
     return wsgi_resource
 
 
+# Twisted Application Framework setup:
 application = service.Application('twisted-django')
 
+# WSGI container for Django, combine it with twisted.web.Resource:
+# XXX this is the only 'ugly' part: see the 'getChild' method in twresource.Root 
 wsgi_root = wsgi_resource()
-root = Root(wsgi_root)
-print os.path.abspath(".")
-d = os.path.join(os.path.abspath("."), "mydjangosite/media")
-print d
-staticrsrc = static.File(d)
+root = twresource.Root(wsgi_root)
+
+# Servce Django media files off of /media:
+staticrsrc = static.File(os.path.join(os.path.abspath("."), "mydjangosite/media"))
 root.putChild("media", staticrsrc)
 
+# The cool part! Add in pure Twisted Web Resouce in the mix
+# This 'pure twisted' code could be using twisted's XMPP functionality, etc:
 root.putChild("google", twresource.GoogleResource())
 
+# Serve it up:
 main_site = server.Site(root)
-internet.TCPServer(8000, main_site).setServiceParent(application)
+internet.TCPServer(PORT, main_site).setServiceParent(application)
