@@ -52,6 +52,7 @@ Run example
 
 
 #. Move up one directory and run the example::
+    
     $ cd .. #assume you are in 'mydjangosite'
     $ twistd -ny server.py #open localhost:8000 in browser
 
