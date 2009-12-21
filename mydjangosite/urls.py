@@ -5,6 +5,7 @@ from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = patterns('',
+    (r'^$', 'django.views.generic.simple.direct_to_template', {'template': 'index.html'}),
     (r'^polls/$', 'mydjangosite.polls.views.index'),
     (r'^polls/(?P<poll_id>\d+)/$', 'mydjangosite.polls.views.detail'),
     #(r'^polls/(?P<poll_id>\d+)/results/$', 'mydjangosite.polls.views.results'),
