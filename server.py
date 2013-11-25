@@ -33,8 +33,10 @@ wsgi_root = wsgi_resource()
 root = twresource.Root(wsgi_root)
 
 # Servce Django media files off of /media:
-staticrsrc = static.File(os.path.join(os.path.abspath("."), "mydjangosite/media"))
-root.putChild("media", staticrsrc)
+mediasrc = static.File(os.path.join(os.path.abspath("."), "mydjangosite/media"))
+staticsrc = static.File(os.path.join(os.path.abspath("."), "mydjangosite/static"))
+root.putChild("media", mediasrc)
+root.putChild("static", staticsrc)
 
 # The cool part! Add in pure Twisted Web Resouce in the mix
 # This 'pure twisted' code could be using twisted's XMPP functionality, etc:
