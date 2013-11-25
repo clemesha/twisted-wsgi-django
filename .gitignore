@@ -1,2 +1,4 @@
 *.pyc
 mydjangosite/site.db
+.DS_Store
+
