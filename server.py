@@ -10,6 +10,18 @@ import twresource
 
 PORT = 8000
 
+class ThreadPoolService(service.Service):
+    def __init__(self, pool):
+        self.pool = pool
+
+    def startService(self):
+        service.Service.startService(self)
+        self.pool.start()
+
+    def stopService(self):
+        service.Service.stopService(self)
+        self.pool.stop()
+
 # Environment setup for your Django project files:
 sys.path.append("mydjangosite")
 os.environ['DJANGO_SETTINGS_MODULE'] = 'mydjangosite.settings'
