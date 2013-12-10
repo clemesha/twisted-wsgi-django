@@ -30,6 +30,11 @@ from django.core.handlers.wsgi import WSGIHandler
 # Twisted Application Framework setup:
 application = service.Application('twisted-django')
 
+
+# WSGI container for Django, combine it with twisted.web.Resource:
+# XXX this is the only 'ugly' part: see the 'getChild' method in twresource.Root 
+# The MultiService allows to start Django and Twisted server as a daemon.
+
 multi = service.MultiService()
 pool = threadpool.ThreadPool()
 tps = ThreadPoolService(pool)
